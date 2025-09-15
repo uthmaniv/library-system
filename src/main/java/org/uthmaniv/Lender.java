@@ -29,9 +29,23 @@ public abstract class Lender {
 
     public void borrowBook(Book book) {
         booksBorrowed.add(book);
+        //check if we already borrowed, if we did , restrict us from borrowing thesame book
     }
 
     public void returnBook(Book book) {
         booksBorrowed.remove(book);
     }
+
+    public void printBooksWithMe() {
+        if (booksBorrowed.isEmpty()) {
+            System.out.println(firstName + " " + lastName + " has no borrowed books.");
+        } else {
+            System.out.println("Books with " + firstName + " " + lastName + ":");
+            System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4s%n",
+                    "Book ID", "Title", "Author", "Genre", "Year");
+            System.out.println("=".repeat(125));
+            booksBorrowed.forEach(Book::getBookDetails);
+        }
+    }
+
 }

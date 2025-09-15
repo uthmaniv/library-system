@@ -18,6 +18,21 @@ public class BookShelf {
                 .toList();
     }
 
+    public static void printAvailableBook(List<Book> books){
+        System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4s%n",
+                "Book ID", "Title", "Author", "Genre", "Year");
+        System.out.println("=".repeat(125));
+        for (Book book: books){
+            book.getBookDetails();
+        }
+    }
+
+    public List<Book> getBooksByGenre(String genre) {
+        return books.keySet()
+                .stream()
+                .filter(book -> book.getGenre().equalsIgnoreCase(genre))
+                .toList();
+    }
 
     //methods
     public boolean isBookAvailable(Book book) {

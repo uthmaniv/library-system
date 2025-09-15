@@ -28,4 +28,16 @@ public class Book {
     public String toString() {
         return "Book{" + "title='" + title + "', author='" + author + "'}";
     }
+
+    public void getBookDetails() {
+        System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4d%n",
+                id,
+                title,
+                author,
+                genre,
+                publicationYear.getYear()
+        );
+    }
+
+
 }
