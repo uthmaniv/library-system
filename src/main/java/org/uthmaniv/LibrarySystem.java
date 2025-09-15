@@ -26,16 +26,16 @@ public class LibrarySystem {
         Book b9 = new Book("The 7 Habits of Highly Effective People", "Stephen R. Covey", "Self-Help", LocalDate.of(1989, 8, 15));
         Book b10 = new Book("Introduction to Algorithms", "Thomas H. Cormen", "Programming", LocalDate.of(1990, 9, 1));
 
-        initialBooks.put(b1, 5);
-        initialBooks.put(b2, 5);
-        initialBooks.put(b3, 5);
-        initialBooks.put(b4, 5);
-        initialBooks.put(b5, 5);
-        initialBooks.put(b6, 5);
-        initialBooks.put(b7, 5);
-        initialBooks.put(b8, 5);
-        initialBooks.put(b9, 5);
-        initialBooks.put(b10, 5);
+        initialBooks.put(b1, 2);
+        initialBooks.put(b2, 2);
+        initialBooks.put(b3, 2);
+        initialBooks.put(b4, 2);
+        initialBooks.put(b5, 2);
+        initialBooks.put(b6, 2);
+        initialBooks.put(b7, 2);
+        initialBooks.put(b8, 2);
+        initialBooks.put(b9, 2);
+        initialBooks.put(b10,2);
 
 
         // Sample lenders
