@@ -1,8 +1,8 @@
 package org.uthmaniv;
 
 public class Teacher extends Lender {
-    public Teacher(String firstName, String lastName, long phoneNumber) {
-        super(firstName, lastName, phoneNumber);
+    public Teacher(String id, String firstName, String lastName, long phoneNumber) {
+        super(id, firstName, lastName, phoneNumber);
     }
 
     @Override

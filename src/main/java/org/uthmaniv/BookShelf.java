@@ -27,6 +27,26 @@ public class BookShelf {
         }
     }
 
+    public void printAvailableBooksWithCopies() {
+        System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4s | %-6s%n",
+                "Book ID", "Title", "Author", "Genre", "Year", "Copies");
+        System.out.println("=".repeat(140));
+
+        books.forEach((book, copies) -> {
+            if (copies > 0) {
+                System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4d | %-6d%n",
+                        book.getId(),
+                        book.getTitle(),
+                        book.getAuthor(),
+                        book.getGenre(),
+                        book.getPublicationYear().getYear(),
+                        copies
+                );
+            }
+        });
+    }
+
+
     public List<Book> getBooksByGenre(String genre) {
         return books.keySet()
                 .stream()

@@ -11,8 +11,8 @@ public abstract class Lender {
     private final long phoneNumber;
     private final Set<Book> booksBorrowed;
 
-    protected Lender(String firstName, String lastName, long phoneNumber) {
-        this.id = UUID.randomUUID().toString();
+    protected Lender(String id, String firstName, String lastName, long phoneNumber) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;

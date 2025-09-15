@@ -3,8 +3,8 @@ package org.uthmaniv;
 public class Student extends Lender {
     private final ClassLevel level;
 
-    public Student(String firstName, String lastName, long phoneNumber, ClassLevel level) {
-        super(firstName, lastName, phoneNumber);
+    public Student(String id, String firstName, String lastName, long phoneNumber, ClassLevel level) {
+        super(id, firstName, lastName, phoneNumber);
         this.level = level;
     }
 
