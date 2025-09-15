@@ -90,38 +90,44 @@ public class LibrarySystem {
         }
     }
 
-    public static void login(Library library){
+    public static void login(Library library) {
         Scanner src = new Scanner(System.in);
+        log.info("System started. Awaiting user login...");
         System.out.println("========WELCOME=========");
         System.out.println("1-> Login as Admin");
         System.out.println("2-> Login as Lender");
         System.out.println("Enter Choice");
+
         int input = src.nextInt();
         src.nextLine();
 
-        switch (input){
-            case 1-> {
+        switch (input) {
+            case 1 -> {
                 System.out.print("Please ADMIN your ID: ");
                 String userInput = src.nextLine();
-                if (userInput.equalsIgnoreCase("admin")){
+                if (userInput.equalsIgnoreCase("admin")) {
+                    log.info("Admin login successful.");
                     callAdminMenu(library);
+                } else {
+                    log.warn("Failed admin login attempt with ID: {}", userInput);
                 }
             }
-            case 2-> {
+            case 2 -> {
                 System.out.print("Please Enter your ID: ");
                 String userInput = src.nextLine();
                 var lender = library.getLenderById(userInput);
-                if (lender!=null){
-                    mainMenu(library,lender);
-                }
-                else {
-                    System.out.println("No User with that ID is found");
+                if (lender != null) {
+                    log.info("Lender login successful: {} ({})", lender.getFirstName(), lender.getId());
+                    mainMenu(library, lender);
+                } else {
+                    log.warn("Login failed. No user found with ID: {}", userInput);
                     login(library);
                 }
             }
+            default -> log.warn("Invalid login option selected: {}", input);
         }
-
     }
+
     public static void loginNewUser(Library library){
         login(library);
     }

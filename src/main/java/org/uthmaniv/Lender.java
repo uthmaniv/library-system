@@ -1,5 +1,8 @@
 package org.uthmaniv;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -10,6 +13,7 @@ public abstract class Lender {
     private final String lastName;
     private final long phoneNumber;
     private final Set<Book> booksBorrowed;
+    private static final Logger log = LogManager.getLogger(Lender.class);
 
     protected Lender(String id, String firstName, String lastName, long phoneNumber) {
         this.id = id;
@@ -28,12 +32,20 @@ public abstract class Lender {
     public Set<Book> getBooksBorrowed() { return booksBorrowed; }
 
     public void borrowBook(Book book) {
-        booksBorrowed.add(book);
-        //check if we already borrowed, if we did , restrict us from borrowing thesame book
+        if (booksBorrowed.contains(book)) {
+            log.warn("{} {} attempted to borrow '{}' again but already has it.", firstName, lastName, book.getTitle());
+        } else {
+            booksBorrowed.add(book);
+            log.info("{} {} borrowed '{}'", firstName, lastName, book.getTitle());
+        }
     }
 
     public void returnBook(Book book) {
-        booksBorrowed.remove(book);
+        if (booksBorrowed.remove(book)) {
+            log.info("{} {} returned '{}'", firstName, lastName, book.getTitle());
+        } else {
+            log.warn("{} {} attempted to return '{}' but it was not borrowed.", firstName, lastName, book.getTitle());
+        }
     }
 
     public void printBooksWithMe() {

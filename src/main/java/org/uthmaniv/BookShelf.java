@@ -1,10 +1,14 @@
 package org.uthmaniv;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 import java.util.Map;
 
 public class BookShelf {
     private Map<Book,Integer> books;
+    private static final Logger log = LogManager.getLogger(BookShelf.class);
 
     public BookShelf(Map<Book,Integer> books) {
         this.books = books;
@@ -58,15 +62,7 @@ public class BookShelf {
     public boolean isBookAvailable(Book book) {
         return books.getOrDefault(book, 0) > 0;
     }
-
-    public void addToShelf(Book book, int quantity) {
-        books.merge(book, quantity, Integer::sum);
-    }
-
-    public void removeFromShelf(Book book) {
-        books.computeIfPresent(book, (b, count) -> (count > 1) ? count - 1 : null);
-    }
-
+    
     public Book getBookById(String id) {
         return books.keySet()
                 .stream()
@@ -81,6 +77,16 @@ public class BookShelf {
                 .filter(book -> book.getTitle().equalsIgnoreCase(title))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void addToShelf(Book book, int quantity) {
+        books.merge(book, quantity, Integer::sum);
+        log.debug("Added {} copies of '{}' to shelf. Total now: {}", quantity, book.getTitle(), books.get(book));
+    }
+
+    public void removeFromShelf(Book book) {
+        books.computeIfPresent(book, (b, count) -> (count > 1) ? count - 1 : null);
+        log.debug("Removed 1 copy of '{}' from shelf.", book.getTitle());
     }
 
 
