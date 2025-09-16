@@ -73,7 +73,7 @@ public class Library {
                 .forEach(l -> {
                     System.out.println(l.getFirstName() + " " + l.getLastName() + " | ID: " + l.getId());
                     l.getBooksBorrowed().forEach(book ->
-                            System.out.println("   -> " + book.getTitle()));
+                            System.out.println("   -> " + book.title()));
                 });
     }
 
@@ -82,10 +82,9 @@ public class Library {
             bookShelf.removeFromShelf(book);
             lender.borrowBook(book);
             lendingHistories.add(new LendingHistory(lender, book, LocalDateTime.now()));
-            log.info("{} borrowed book '{}'", lender.getFirstName(), book.getTitle());
         } else {
             borrowRequests.offer(new BorrowRequest(lender, book, System.currentTimeMillis()));
-            log.warn("No copies available for '{}'. Request queued for {}", book.getTitle(), lender.getFirstName());
+            log.warn("No copies available for '{}'. Request queued for {}", book.title(), lender.getFirstName());
         }
     }
 
@@ -98,7 +97,7 @@ public class Library {
                 .findFirst()
                 .ifPresent(h -> h.setReturnDate(LocalDateTime.now()));
 
-        log.info("{} returned book '{}'", lender.getFirstName(), book.getTitle());
+        log.info("{} returned book '{}'", lender.getFirstName(), book.title());
     }
 
 

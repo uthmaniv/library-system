@@ -21,8 +21,8 @@ class LibraryTest {
     @BeforeEach
     void setUp() {
         Map<Book, Integer> books = new HashMap<>();
-        book1 = new Book("Clean Code", "Robert Martin", "Programming", LocalDate.of(2008, 8, 1));
-        book2 = new Book("Animal Farm", "George Orwell", "Dystopian", LocalDate.of(1945, 8, 17));
+        book1 = new Book(4444,"Clean Code", "Robert Martin", "Programming", LocalDate.of(2008, 8, 1));
+        book2 = new Book(3333,"Animal Farm", "George Orwell", "Dystopian", LocalDate.of(1945, 8, 17));
 
         books.put(book1, 2);
         books.put(book2, 1);
@@ -67,14 +67,14 @@ class LibraryTest {
     void testGetBookByTitle() {
         Book found = bookShelf.getBookByTitle("Clean Code");
         assertNotNull(found);
-        assertEquals("Clean Code", found.getTitle());
+        assertEquals("Clean Code", found.title());
     }
 
     @Test
     void testGetBooksByGenre() {
         var dystopianBooks = bookShelf.getBooksByGenre("Dystopian");
         assertEquals(1, dystopianBooks.size());
-        assertEquals("Animal Farm", dystopianBooks.get(0).getTitle());
+        assertEquals("Animal Farm", dystopianBooks.get(0).title());
     }
 
     @Test

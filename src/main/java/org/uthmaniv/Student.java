@@ -1,5 +1,7 @@
 package org.uthmaniv;
 
+import java.util.Objects;
+
 public class Student extends Lender {
     private final ClassLevel level;
 
@@ -10,6 +12,18 @@ public class Student extends Lender {
 
     public ClassLevel getLevel() {
         return level;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return level == student.level;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(level);
     }
 
     @Override

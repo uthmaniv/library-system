@@ -49,7 +49,7 @@ public class LendingHistory {
             System.out.printf("%-36s %-20s %-30s %-20s %-20s%n",
                     history.getLender().getId(),
                     lenderName,
-                    history.getBookBorrowed().getTitle(),
+                    history.getBookBorrowed().title(),
                     borrowDate,
                     returnDate
             );

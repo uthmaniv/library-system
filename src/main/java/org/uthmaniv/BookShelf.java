@@ -39,11 +39,11 @@ public class BookShelf {
         books.forEach((book, copies) -> {
             if (copies > 0) {
                 System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4d | %-6d%n",
-                        book.getId(),
-                        book.getTitle(),
-                        book.getAuthor(),
-                        book.getGenre(),
-                        book.getPublicationYear().getYear(),
+                        book.isbn(),
+                        book.title(),
+                        book.author(),
+                        book.genre(),
+                        book.publicationYear().getYear(),
                         copies
                 );
             }
@@ -54,7 +54,7 @@ public class BookShelf {
     public List<Book> getBooksByGenre(String genre) {
         return books.keySet()
                 .stream()
-                .filter(book -> book.getGenre().equalsIgnoreCase(genre))
+                .filter(book -> book.genre().equalsIgnoreCase(genre))
                 .toList();
     }
 
@@ -62,11 +62,11 @@ public class BookShelf {
     public boolean isBookAvailable(Book book) {
         return books.getOrDefault(book, 0) > 0;
     }
-    
-    public Book getBookById(String id) {
+
+    public Book getBookById(long id) {
         return books.keySet()
                 .stream()
-                .filter(book -> book.getId().equals(id))
+                .filter(book -> book.isbn() == id)
                 .findFirst()
                 .orElse(null);
     }
@@ -74,19 +74,19 @@ public class BookShelf {
     public Book getBookByTitle(String title) {
         return books.keySet()
                 .stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .filter(book -> book.title().equalsIgnoreCase(title))
                 .findFirst()
                 .orElse(null);
     }
 
     public void addToShelf(Book book, int quantity) {
         books.merge(book, quantity, Integer::sum);
-        log.debug("Added {} copies of '{}' to shelf. Total now: {}", quantity, book.getTitle(), books.get(book));
+        log.debug("Added {} copies of '{}' to shelf. Total now: {}", quantity, book.title(), books.get(book));
     }
 
     public void removeFromShelf(Book book) {
         books.computeIfPresent(book, (b, count) -> (count > 1) ? count - 1 : null);
-        log.debug("Removed 1 copy of '{}' from shelf.", book.getTitle());
+        log.debug("Removed 1 copy of '{}' from shelf.", book.title());
     }
 
 

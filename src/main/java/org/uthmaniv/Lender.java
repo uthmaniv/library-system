@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 public abstract class Lender {
     private final String id;
@@ -33,18 +33,18 @@ public abstract class Lender {
 
     public void borrowBook(Book book) {
         if (booksBorrowed.contains(book)) {
-            log.warn("{} {} attempted to borrow '{}' again but already has it.", firstName, lastName, book.getTitle());
+            log.warn("{} {} attempted to borrow '{}' again but already has it.", firstName, lastName, book.title());
         } else {
             booksBorrowed.add(book);
-            log.info("{} {} borrowed '{}'", firstName, lastName, book.getTitle());
+            log.info("{} {} borrowed '{}'", firstName, lastName, book.title());
         }
     }
 
     public void returnBook(Book book) {
         if (booksBorrowed.remove(book)) {
-            log.info("{} {} returned '{}'", firstName, lastName, book.getTitle());
+            log.info("{} {} returned '{}'", firstName, lastName, book.title());
         } else {
-            log.warn("{} {} attempted to return '{}' but it was not borrowed.", firstName, lastName, book.getTitle());
+            log.warn("{} {} attempted to return '{}' but it was not borrowed.", firstName, lastName, book.title());
         }
     }
 
@@ -60,4 +60,15 @@ public abstract class Lender {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Lender lender = (Lender) o;
+        return Objects.equals(id, lender.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

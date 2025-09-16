@@ -14,17 +14,27 @@ public class LibrarySystem {
     public static void main(String[] args) {
         Map<Book, Integer> initialBooks = new HashMap<>();
         Map<String, Lender> lenderMap = new HashMap<>();
+        Set<ClassLevel> seniorClass = new HashSet<>(List.of(
+                ClassLevel.SSS1,
+                ClassLevel.SSS2,
+                ClassLevel.SSS3)
+        );
+        Set<ClassLevel> juniorClass = new HashSet<>(List.of(
+                ClassLevel.JSS1,
+                ClassLevel.JSS2,
+                ClassLevel.JSS3)
+        );
 
-        Book b1 = new Book("The Alchemist", "Paulo Coelho", "Self-Help", LocalDate.of(1990, 10, 23));
-        Book b2 = new Book("Deep Work", "Carl Newport", "Self-Help", LocalDate.of(2018, 3, 16));
-        Book b3 = new Book("Animal Farm", "George Orwell", "Dystopian", LocalDate.of(1949, 6, 8));
-        Book b4 = new Book("Clean Code", "Robert C. Martin", "Programming", LocalDate.of(2008, 8, 1));
-        Book b5 = new Book("Atomic Habits", "James Clear", "Self-Help", LocalDate.of(2018, 10, 16));
-        Book b6 = new Book("The Pragmatic Programmer", "Andrew Hunt & David Thomas", "Programming", LocalDate.of(1999, 10, 30));
-        Book b7 = new Book("Thinking, Fast and Slow", "Daniel Kahneman", "Psychology", LocalDate.of(2011, 10, 25));
-        Book b8 = new Book("Sapiens: A Brief History of Humankind", "Yuval Noah Harari", "History", LocalDate.of(2011, 9, 4));
-        Book b9 = new Book("The 7 Habits of Highly Effective People", "Stephen R. Covey", "Self-Help", LocalDate.of(1989, 8, 15));
-        Book b10 = new Book("Introduction to Algorithms", "Thomas H. Cormen", "Programming", LocalDate.of(1990, 9, 1));
+        Book b1 = new Book(1111,"The Alchemist", "Paulo Coelho", "Self-Help", LocalDate.of(1990, 10, 23));
+        Book b2 = new Book(2222,"Deep Work", "Carl Newport", "Self-Help", LocalDate.of(2018, 3, 16));
+        Book b3 = new Book(3333,"Animal Farm", "George Orwell", "Dystopian", LocalDate.of(1949, 6, 8));
+        Book b4 = new Book(4444,"Clean Code", "Robert C. Martin", "Programming", LocalDate.of(2008, 8, 1));
+        Book b5 = new Book(5555,"Atomic Habits", "James Clear", "Self-Help", LocalDate.of(2018, 10, 16));
+        Book b6 = new Book(6666,"The Pragmatic Programmer", "Andrew Hunt & David Thomas", "Programming", LocalDate.of(1999, 10, 30));
+        Book b7 = new Book(7777,"Thinking, Fast and Slow", "Daniel Kahneman", "Psychology", LocalDate.of(2011, 10, 25));
+        Book b8 = new Book(8888,"Sapiens: A Brief History of Humankind", "Yuval Noah Harari", "History", LocalDate.of(2011, 9, 4));
+        Book b9 = new Book(9999,"The 7 Habits of Highly Effective People", "Stephen R. Covey", "Self-Help", LocalDate.of(1989, 8, 15));
+        Book b10 = new Book(1010,"Introduction to Algorithms", "Thomas H. Cormen", "Programming", LocalDate.of(1990, 9, 1));
 
         initialBooks.put(b1, 2);
         initialBooks.put(b2, 2);
@@ -37,15 +47,14 @@ public class LibrarySystem {
         initialBooks.put(b9, 2);
         initialBooks.put(b10,2);
 
-
         // Sample lenders
         Lender student1 = new Student("CS1080","Usman", "Yahaya Baba", 903535353, ClassLevel.SSS2);
         Lender student2 = new Student("CS1070","Mahadi", "Abuhuraira", 423232333, ClassLevel.SSS2);
         Lender student3 = new Student("CS1033","Anas", "Yakubu", 3626323, ClassLevel.SSS1);
         Lender student4 = new Student("CS1043","Mustapha", "Sanusi", 2323232, ClassLevel.JSS3);
         Lender student5 = new Student("CS1041","Ibrahim", "Sheme", 232323, ClassLevel.JSS1);
-        Lender teacher1 = new Teacher("CST01","Abdulrazaq", "Musa", 883278273);
-        Lender teacher2 = new Teacher("CST02","Tanko", "Abubakar", 323222);
+        Lender teacher1 = new Teacher("CST01","Abdulrazaq", "Musa", 883278273, seniorClass);
+        Lender teacher2 = new Teacher("CST02","Tanko", "Abubakar", 323222, juniorClass);
 
         lenderMap.put(student1.getId(), student1);
         lenderMap.put(student2.getId(), student2);
@@ -195,7 +204,7 @@ public class LibrarySystem {
         String title = src.nextLine();
         Book book = lender.getBooksBorrowed()
                 .stream()
-                .filter(b -> b.getTitle().equalsIgnoreCase(title))
+                .filter(b -> b.title().equalsIgnoreCase(title))
                 .findFirst()
                 .orElse(null);
 
