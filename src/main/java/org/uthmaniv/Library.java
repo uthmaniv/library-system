@@ -8,11 +8,16 @@ import java.util.*;
 
 public class Library {
 
+
+    Comparator<BorrowRequest> comparator = Comparator
+            .comparingInt((BorrowRequest br) -> br.lender().getPriority())
+            .thenComparingLong(BorrowRequest::timestamp);
+
     private static final Logger log = LogManager.getLogger(Library.class);
     private final BookShelf bookShelf;
     private final List<LendingHistory> lendingHistories = new ArrayList<>();
     private final Map<String, Lender> lenderMap;
-    private PriorityQueue<BorrowRequest> borrowRequests;
+    private final PriorityQueue<BorrowRequest> borrowRequests = new PriorityQueue<>(comparator);
 
     public Library(BookShelf bookShelf, Map<String, Lender> lenderMap) {
         this.bookShelf = bookShelf;
@@ -96,9 +101,30 @@ public class Library {
                 .filter(h -> h.getBookBorrowed().equals(book) && h.getReturnDate() == null)
                 .findFirst()
                 .ifPresent(h -> h.setReturnDate(LocalDateTime.now()));
-
-        log.info("{} returned book '{}'", lender.getFirstName(), book.title());
     }
 
+
+    public void printBorrowRequests() {
+        if (borrowRequests.isEmpty()) {
+            System.out.println("No pending borrow requests.");
+            return;
+        }
+
+        System.out.printf("%-30s | %-40s | %-20s%n", "Lender Name", "Book Title", "Date Requested");
+        System.out.println("=".repeat(95));
+
+        // We don’t want to consume (poll) the queue, just display its elements
+        borrowRequests.forEach(req -> {
+            String lenderName = req.lender().getFirstName() + " " + req.lender().getLastName();
+            String bookTitle = req.bookRequested().title();
+            String dateRequested =
+                    java.time.Instant.ofEpochMilli(req.timestamp())
+                            .atZone(java.time.ZoneId.systemDefault())
+                            .toLocalDateTime()
+                            .toString();
+
+            System.out.printf("%-30s | %-40s | %-20s%n", lenderName, bookTitle, dateRequested);
+        });
+    }
 
 }

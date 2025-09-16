@@ -173,7 +173,7 @@ public class LibrarySystem {
                 case 1 -> library.getBookShelf().printAvailableBooksWithCopies();
                 case 2 -> library.printLendingHistories();
                 case 3 -> library.printCurrentLenders();
-                //case 4 -> //printBorrowRequests();
+                case 4 -> library.printBorrowRequests();
                 case 5 -> loginNewUser(library);
                 case 0 -> {
                     System.out.println("Exiting system...");

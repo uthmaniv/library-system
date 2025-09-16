@@ -85,7 +85,7 @@ public class BookShelf {
     }
 
     public void removeFromShelf(Book book) {
-        books.computeIfPresent(book, (b, count) -> (count > 1) ? count - 1 : null);
+        books.computeIfPresent(book, (b, count) -> (count > 1) ? count - 1 : 0);
         log.debug("Removed 1 copy of '{}' from shelf.", book.title());
     }
 
