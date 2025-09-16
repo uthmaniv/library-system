@@ -210,7 +210,6 @@ public class LibrarySystem {
 
         if (book != null) {
             library.returnBook(lender, book);
-            lender.returnBook(book);
         } else {
             System.out.println("You don’t have this book borrowed.");
         }
