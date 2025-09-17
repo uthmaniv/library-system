@@ -57,16 +57,17 @@ public class Library {
 
         System.out.println("\n=== Lending Histories ===");
         // Print header
-        System.out.printf("| %-40s | %-40s | %-20s |%n", "Name", "Borrow Date", "Return Date");
-        System.out.println("------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-30s | %-40s | %-30s | %-30s |%n", "Name","Book Borrowed", "Borrow Date", "Return Date");
+        System.out.println("=".repeat(140));
 
         // Print each history record
         for (LendingHistory h : histories) {
             String name = h.getLender().getFirstName() + " " + h.getLender().getLastName();
+            Book bookBorrowed = h.getBookBorrowed();
             String borrowDate = h.getBorrowDate().toString();
             String returnDate = (h.getReturnDate() != null) ? h.getReturnDate().toString() : "Not yet returned";
 
-            System.out.printf("| %-40s | %-40s | %-20s |%n", name, borrowDate, returnDate);
+            System.out.printf("| %-30s | %-40s | %-30s | %-30s |%n", name,bookBorrowed.title(), borrowDate, returnDate);
         }
     }
 
@@ -83,6 +84,12 @@ public class Library {
     }
 
     public void borrowBook(Lender lender, Book book) {
+        //first check if the lender already has the book requested
+        if (lender.getBooksBorrowed().contains(book)) {
+            log.warn("{} {} already has '{}'. Request ignored.",
+                    lender.getFirstName(), lender.getLastName(), book.title());
+            return;
+        }
         if (bookShelf.isBookAvailable(book)) {
             bookShelf.removeFromShelf(book);
             lender.borrowBook(book);
@@ -94,14 +101,41 @@ public class Library {
     }
 
     public void returnBook(Lender lender, Book book) {
+        // Step 1: Mark return for the current lender
         lender.returnBook(book);
-        bookShelf.addToShelf(book, 1);
 
         lendingHistories.stream()
                 .filter(h -> h.getBookBorrowed().equals(book) && h.getReturnDate() == null)
                 .findFirst()
                 .ifPresent(h -> h.setReturnDate(LocalDateTime.now()));
+
+        // Step 2: Check if anyone else requested this book
+        BorrowRequest nextRequest = borrowRequests.stream()
+                .filter(req -> req.bookRequested().equals(book))
+                .min(comparator)
+                .orElse(null);
+
+        if (nextRequest != null) {
+            borrowRequests.remove(nextRequest); // remove from queue
+            Lender nextLender = nextRequest.lender();
+
+            // Give book to next lender
+            nextLender.borrowBook(book);
+            lendingHistories.add(new LendingHistory(nextLender, book, LocalDateTime.now()));
+
+            log.info("Book '{}' returned by {} and immediately lent to {}.",
+                    book.title(),
+                    lender.getFirstName(),
+                    nextLender.getFirstName());
+        } else {
+            // No pending request for this book → put it back on shelf
+            bookShelf.addToShelf(book, 1);
+            log.info("Book '{}' returned by {} and placed back on shelf.",
+                    book.title(),
+                    lender.getFirstName());
+        }
     }
+
 
 
     public void printBorrowRequests() {

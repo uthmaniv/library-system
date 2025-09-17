@@ -32,12 +32,8 @@ public abstract class Lender {
     public Set<Book> getBooksBorrowed() { return booksBorrowed; }
 
     public void borrowBook(Book book) {
-        if (booksBorrowed.contains(book)) {
-            log.warn("{} {} attempted to borrow '{}' again but already has it.", firstName, lastName, book.title());
-        } else {
             booksBorrowed.add(book);
             log.info("{} {} borrowed '{}'", firstName, lastName, book.title());
-        }
     }
 
     public void returnBook(Book book) {
@@ -53,9 +49,9 @@ public abstract class Lender {
             System.out.println(firstName + " " + lastName + " has no borrowed books.");
         } else {
             System.out.println("Books with " + firstName + " " + lastName + ":");
-            System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4s%n",
+            System.out.printf("%-10s | %-40s | %-28s | %-15s | %-4s%n",
                     "Book ID", "Title", "Author", "Genre", "Year");
-            System.out.println("=".repeat(125));
+            System.out.println("=".repeat(114));
             booksBorrowed.forEach(Book::getBookDetails);
         }
     }

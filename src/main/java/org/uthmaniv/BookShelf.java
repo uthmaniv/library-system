@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BookShelf {
-    private Map<Book,Integer> books;
+    private final Map<Book,Integer> books;
     private static final Logger log = LogManager.getLogger(BookShelf.class);
 
     public BookShelf(Map<Book,Integer> books) {
@@ -23,9 +23,9 @@ public class BookShelf {
     }
 
     public static void printAvailableBook(List<Book> books){
-        System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4s%n",
+        System.out.printf("%-10s | %-40s | %-28s | %-15s | %-4s%n",
                 "Book ID", "Title", "Author", "Genre", "Year");
-        System.out.println("=".repeat(125));
+        System.out.println("=".repeat(114));
         for (Book book: books){
             book.getBookDetails();
         }

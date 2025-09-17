@@ -11,7 +11,7 @@ public record Book(long isbn, String title, String author, String genre, LocalDa
     }
 
     public void getBookDetails() {
-        System.out.printf("%-36s | %-40s | %-28s | %-15s | %-4d%n",
+        System.out.printf("%-10s | %-40s | %-28s | %-15s | %-4d%n",
                 isbn,
                 title,
                 author,

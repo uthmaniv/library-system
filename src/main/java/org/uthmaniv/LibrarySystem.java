@@ -62,7 +62,7 @@ public class LibrarySystem {
         lenderMap.put(student4.getId(), student4);
         lenderMap.put(student5.getId(), student5);
         lenderMap.put(teacher1.getId(), teacher1);
-        lenderMap.put(teacher1.getId(), teacher1);
+        lenderMap.put(teacher2.getId(), teacher2);
 
         BookShelf bookShelf = new BookShelf(initialBooks);
         Library library = new Library(bookShelf, lenderMap);
